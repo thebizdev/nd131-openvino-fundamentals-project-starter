@@ -97,7 +97,7 @@ def infer_on_stream(args, client):
     :return: None
     """
     
-    num request = 0
+    
     
     #Marking for the single image
     single_image_mode = False
