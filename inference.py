@@ -112,8 +112,13 @@ class Network:
         ### TODO: Wait for the request to be complete. ###
         ### TODO: Return any necessary information ###
         ### Note: You may need to update the function parameters. ###
+        #Source from course work
+        status = self.exec_network.requests[0].wait(-1)
         status = self.infer_request.wait()
         return status
+       
+     
+   
 
     def get_output(self):
         ### TODO: Extract and return the output results
