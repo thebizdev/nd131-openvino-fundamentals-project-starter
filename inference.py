@@ -83,16 +83,26 @@ class Network:
     def get_input_shape(self):
         ### TODO: Return the shape of the input layer ###
          input_shapes = {}
-        for inp in self.network.inputs:
-            input_shapes[inp] = (self.network.inputs[inp].shape)
+        for inps in self.network.inputs:
+            input_shapes[inps] = (self.network.inputs[inps].shape)
         return input_shapes
+       
+       
+    def async_inference(self, image):
+        '''
+        Makes an asynchronous inference request, given an input image.
+        '''
+      
+        self.exec_network.start_async(request_id=0, 
+            inputs={self.input_blob: image})
+        return   
 
     def exec_net(self, net_input, request_id):
         ### TODO: Start an asynchronous request ###
         ### TODO: Return any necessary information ###
         ### Note: You may need to update the function parameters. ###
         
-        self.infer_request_handle = self.exec_network.start_async(
+        self.infer_request = self.exec_network.start_async(
                 request_id, 
                 inputs=net_input)
 
@@ -102,13 +112,13 @@ class Network:
         ### TODO: Wait for the request to be complete. ###
         ### TODO: Return any necessary information ###
         ### Note: You may need to update the function parameters. ###
-        status = self.infer_request_handle.wait()
+        status = self.infer_request.wait()
         return status
 
     def get_output(self):
         ### TODO: Extract and return the output results
         ### Note: You may need to update the function parameters. ###        
-        out = self.infer_request_handle.outputs[self.output_blob]
+        out = self.infer_request.outputs[self.output_blob]
         return out
     
 def all_layers_supported(engine, network, console_output=False):
