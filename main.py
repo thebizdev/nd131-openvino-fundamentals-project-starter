@@ -281,14 +281,14 @@ def infer_on_stream(args, client):
     
 
     ### TODO: Send the frame to the FFMPEG server ###
-    frame = cv2.resize(frame, (768, 432))
+    frame = cv2.resize(frame, (320, 320))
         sys.stdout.buffer.write(frame)
         sys.stdout.flush()
 
     ### TODO: Write an output image if `single_image_mode` ###
     
     if single_image_mode:
-            cv2.write("out.jpg", frame)
+            cv2.write(".jpg", frame)
             
     
     cap.release()
