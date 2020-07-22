@@ -47,6 +47,14 @@ def build_argparser():
 
     :return: command line arguments
     """
+  
+# -- Create the arguments
+    parser.add_argument("-i", help=i_desc, default=INPUT_STREAM)
+    parser.add_argument("-d", help=d_desc, default='CPU')
+    args = parser.parse_args()
+   
+    return args
+    
     parser = ArgumentParser()
     parser.add_argument("-m", "--model", required=True, type=str,
                         help="Path to an xml file with a trained model.")
@@ -62,10 +70,12 @@ def build_argparser():
                              "CPU, GPU, FPGA or MYRIAD is acceptable. Sample "
                              "will look for a suitable plugin for device "
                              "specified (CPU by default)")
-    parser.add_argument("-pt", "--prob_threshold", type=float, default=0.5,
+    parser.add_argument("-pt", "--prob_threshold", type=float, default=0.6,
                         help="Probability threshold for detections filtering"
-                        "(0.5 by default)")
+                        "(0.6 by default)")
     return parser
+
+
 
 
 def connect_mqtt():
@@ -96,14 +106,23 @@ def infer_on_stream(args, client):
     :param client: MQTT client
     :return: None
     """
+   
+  
     
-    
-    
+
     #Marking for the single image
     single_image_mode = False
     
     # Initialise the class
+    ## from mqtt.app.py course work
+    def get_class_names(class_nums):
+    class_names= []
+    for i in class_nums:
+        class_names.append(CLASSES[int(i)])
+    return class_names
+    
     infer_network = Network()
+    
     # Set Probability threshold for detections
     prob_threshold = args.prob_threshold
     model = args.model
@@ -116,11 +135,13 @@ def infer_on_stream(args, client):
     infer_network.load_model(model, CPU_EXTENSION, DEVICE)
     network_shape = infer_network.get_input_shape()
     
-    n, c, h, w = infer_network.load_model(args.model, args.device, 1, 1, num_requests, args.cpu_extension)[1]
-    
-    
+     
     
     ### TODO: Handle the input stream ###
+    
+    # Get and open video capture from course work
+    cap = cv2.VideoCapture(args.i)
+    cap.open(args.i)
     
     #Check for CAM
     if args.input =="CAM":
@@ -139,13 +160,25 @@ def infer_on_stream(args, client):
 
     ### TODO: Loop until stream is over ###
     
-    cap = cv2.VideoCapture(input_stream)
-    cap.open(input_stream)
+    # Get and open video capture from mqtt.py course work
+    cap = cv2.VideoCapture(args.i)
+    cap.open(args.i)
     
-    w = int(cap.get(3))
-    h = int(cap.get(4))
+    # Grab the shape of the input from mqtt.py course work
+    width = int(cap.get(3))
+    height = int(cap.get(4))
+    
+    
     
     in_shape = network_shape['image_tensor']
+    
+    # Process frames until the video ends, or process is exited from mqtt.py course work
+    while cap.isOpened():
+        # Read the next frame
+        flag, frame = cap.read()
+        if not flag:
+            break
+        key_pressed = cv2.waitKey(60)
     
     
     #Iniatilize Variables
