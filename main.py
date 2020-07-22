@@ -110,7 +110,7 @@ def infer_on_stream(args, client):
   
     
 
-    #Marking for the single image
+    #Marking first for the single image
     single_image_mode = False
     
     # Initialise the class
@@ -192,7 +192,7 @@ def infer_on_stream(args, client):
     
     total_count = 0
     duration = 0
-    person_on_screen = False
+    person_on_s = False
     person_count = 0
     no_person_count = 0
     people_count = 0
@@ -220,7 +220,7 @@ def infer_on_stream(args, client):
         image = image.transpose((2, 0, 1))
         image = image.reshape((n, c, h, w))
         
-    image = cv2.resize(frame, (in_shape[3], in_shape[2]))
+        image = cv2.resize(frame, (in_shape[3], in_shape[2]))
         image_p = image.transpose((2, 0, 1))
         image_p = image_p.reshape(1, *image_p.shape)    
 
