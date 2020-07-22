@@ -53,17 +53,24 @@ class Network:
         model_xml = model
         model_bin = os.path.splitext(model_xml)[0] + ".bin"
         
+        
+        # Initialize the plugin 
         self.plugin = IECore()
+        
+        # Read the IR as a IENetwork
         self.network = IENetwork(model=model_xml, weights=model_bin)
          
         
         ### TODO: Check for supported layers ###
         if not all_layers_supported(self.plugin, self.network, console_output=console_output):
             self.plugin.add_extension(CPU_EXTENSION, DEVICE)
-            
+          
+        # Load the IENetwork into the plugin    
         self.exec_network = self.plugin.load_network(self.network, DEVICE)
         
         ### TODO: Add any necessary extensions ###
+        
+        # Get the input layer
         self.input_blob = next(iter(self.network.inputs))
         self.output_blob = next(iter(self.network.outputs))
         
