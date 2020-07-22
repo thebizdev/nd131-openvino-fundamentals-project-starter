@@ -134,28 +134,36 @@ def infer_on_stream(args, client):
     
     infer_network.load_model(model, CPU_EXTENSION, DEVICE)
     network_shape = infer_network.get_input_shape()
+    in_shape = network_shape['image_tensor']
     
      
     
     ### TODO: Handle the input stream ###
     
-    # Get and open video capture from course work
+    # Get and open video capture source from course work
     cap = cv2.VideoCapture(args.i)
     cap.open(args.i)
     
+    # Create a flag for single images
+    image_flag = False
+    
+    # Check if the input is CAM
+    if args.i == 'CAM':
+        args.i = 0
+    
+    #Check for image type(jpg, bmp or png)
+    elif args.i.endswith('.jpg') or args.i.endswith('.bmp') or args.i.endswith(".png"):
+         single_image_flag = True
+         input_stream = args.i 
+    
     #Check for CAM
-    if args.input =="CAM":
+    if args.i =="CAM":
         input_stream = 0
-        
-    #Check for image(jpg, bmp, png)    
-    elif args.input.endswith.(".jpg") or args.input.endswith.(".bmp") or args.input.endswith(".png")
-        single_image_mode = True
-        input_stream = args.input
         
     #Check for video
     else:
-        input_stream = args.input
-        assert os.path.isfile(args.input), "video file does not exist"
+        input_stream = args.i
+        assert os.path.isfile(args.i), "video file does not exist"
         
 
     ### TODO: Loop until stream is over ###
@@ -170,7 +178,6 @@ def infer_on_stream(args, client):
     
     
     
-    in_shape = network_shape['image_tensor']
     
     # Process frames until the video ends, or process is exited from mqtt.py course work
     while cap.isOpened():
