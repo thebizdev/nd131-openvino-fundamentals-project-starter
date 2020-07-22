@@ -288,7 +288,7 @@ def infer_on_stream(args, client):
     ### TODO: Write an output image if `single_image_mode` ###
     
     if single_image_mode:
-            cv2.write(".jpg", frame)
+            cv2.write("o.jpg", frame)
             
     
     cap.release()
