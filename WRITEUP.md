@@ -74,7 +74,7 @@ The inference time of the model pre- and post-conversion was...
 
 ## Assess Model Use Cases
 
-Some of the potential use cases of the people counter app are currently will more efficiently useful about on healthcare, public health security. Predicting to the COVID-19 virus symptom from people. Especially will be use in airports, international congress, business fairs etc.
+Some of the potential use cases of the people counter app are currently will more efficiently useful about on supply chain, healthcare, public health security. Predicting to the COVID-19 virus symptom from people. Especially will be use in airports, international congress, business fairs etc.
 
 Each of these use cases would be useful because image, pose detection, object detection automatize system.
 
