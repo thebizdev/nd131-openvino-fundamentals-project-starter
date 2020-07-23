@@ -18,12 +18,27 @@ faster_rcnn_inception_v2_coco_2018_01_28 and ssd_mobilenet_v2_coco_2018_03_29.
 
 Because their performance on openvino more efficient.
 
-Firstly wget http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz
+Firstly begin faster_rcnn_inception_v2_coco_2018_01_28
 
-then tar -xvf faster_rcnn_inception_v2_coco_2018_01_28.tar.gz
+1 wget http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz
 
+2 tar -xvf faster_rcnn_inception_v2_coco_2018_01_28.tar.gz
 
+3 cd   faster_rcnn_inception_v2_coco_2018_01_28
 
+## converting tensorflow model to inference engine
+4 python /opt/intel/openvino/deployment_tools/model_optimizer/mo.py --input_model ./frozen_inference_graph.pb --tensorflow_object_detection_api_pipeline_config pipeline.config --reverse_input_channels --tensorflow_use_custom_operations_config /opt/intel/openvino/deployment_tools/model_optimizer/extensions/front/tf/faster_rcnn_support.json
+
+Secondly begin ssd_mobilenet_v2_coco_2018_03_29.tar.gz 
+
+1- wget http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz
+
+2- tar -xvf ssd_mobilenet_v2_coco_2018_03_29.tar.gz
+
+3- cd ssd_mobilenet_v2_coco_2018_03.29
+
+##converting tensorflow model to inference engine
+4- python /opt/intel/openvino/deployment_tools/model_optimizer/mo.py --input_model ./frozen_inference_graph.pb --tensorflow_object_detection_api_pipeline_config pipeline.config --reverse_input_channels --tensorflow_use_custom_operations_config /opt/intel/openvino/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json
 Terms used in this guide
 
 Layer — The abstract concept of a math function that is selected for a specific purpose (relu, sigmoid, tanh, convolutional). This is one of a sequential series of building blocks within the neural network.
