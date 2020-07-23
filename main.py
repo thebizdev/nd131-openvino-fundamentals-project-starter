@@ -281,7 +281,7 @@ def infer_on_stream(args, client):
     
 
     ### TODO: Send the frame to the FFMPEG server ###
-    frame = cv2.resize(frame, (320, 320))
+    frame = cv2.resize(frame, (600, 600))
         sys.stdout.buffer.write(frame)
         sys.stdout.flush()
 
